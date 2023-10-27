@@ -25,7 +25,7 @@ pub fn f(ary: &[u8; 5]) -> &[u8] {
 }
 
 fn main() {
-    println!("{}", f(&[;; 5])[0xdeadbeef]);
+    println!("{}", f(&[1; 5])[0xdeadbeef]);
 }
 ```
 But unfortunately (for the purposes of exploitation) it panics in debug mode (which codepad uses) because the optimizer isn't invoked, so the bounds check is still there.
@@ -95,7 +95,7 @@ Fortunately, the third issue I looked at, <https://github.com/rust-lang/rust/iss
 
 This allows us to read arbitrary memory by aliasing a Vec<u8>'s {pointer,capacity,length} fields to a heap-allocated triple of usize's:
 ```
-static UNIT: &'static &'static () = &&(;;
+static UNIT: &'static &'static () = &&();
 
 fn foo<'a, 'b, T>(_: &'a &'b (), v: &'b T) -> &'a T { v }
 

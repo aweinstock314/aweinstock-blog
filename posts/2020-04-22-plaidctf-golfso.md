@@ -542,6 +542,7 @@ Unfortunately, this boundary isn't the next flag boundary, which was kind of a l
 ## The 194-byte ELF:
 
 Fortunately, the packer was robust enough that it was just a matter of fiddling with the offsets, zeroing a few more bytes, and tweaking the blacklist to get to the next flag boundary:
+
 ### The diff
 ```
 67,68c67,70
