@@ -33,6 +33,7 @@ main = hakyll $ do
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
+            >>= saveSnapshot "body"
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= saveSnapshot "content"
             >>= loadAndApplyTemplate "templates/default.html" postCtx
@@ -56,8 +57,11 @@ main = hakyll $ do
         route idRoute
         compile $ do
             posts <- recentFirst =<< loadAll "posts/*"
+            --contents <- recentFirst =<< loadAllSnapshots "posts/*" "content"
+            --recompilingUnsafeCompiler $ print (fmap itemBody posts)
             let indexCtx =
-                    listField "posts" postCtx (return posts) `mappend`
+                    listField "posts" postCtx' (return posts) `mappend`
+                    --listField "contents" postCtx (return contents) `mappend`
                     defaultContext
 
             getResourceBody
@@ -72,7 +76,7 @@ main = hakyll $ do
         compile $ do
             let feedCtx = postCtx `mappend` bodyField "description"
             posts <- fmap (take 10) . recentFirst =<< loadAllSnapshots "posts/*" "content"
-            renderAtom feedConfiguration feedCtx posts
+            renderRss feedConfiguration feedCtx posts
 
 
 --------------------------------------------------------------------------------
@@ -80,3 +84,8 @@ postCtx :: Context String
 postCtx =
     dateField "date" "%B %e, %Y" `mappend`
     defaultContext
+
+postCtx' :: Context String
+postCtx' =
+    teaserField "teaser" "body" `mappend`
+    postCtx

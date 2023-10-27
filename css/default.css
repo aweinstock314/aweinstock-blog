@@ -148,3 +148,11 @@ pre {
     overflow-x: auto;
     font-size: 1.2rem;
 }
+
+.teaser {
+    font-size: 1.2rem;
+}
+
+div.teaser h1 {
+    font-size: 1.4rem;
+}

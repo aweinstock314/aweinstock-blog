@@ -15,6 +15,8 @@ The challenge description linked to `golf.so.pwni.ng`, which had a scoreboard, a
 > 
 > `LD_PRELOAD=<upload> /bin/true`
 
+<!--more-->
+
 # First attempt: C with `__attribute__((constructor))` (5992 bytes)
 
 The `__attribute__((constructor))` mechanism allows binaries to run code before `main` (in the case of ordinary executables) or when being loaded (in the case of shared objects).
